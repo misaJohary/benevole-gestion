@@ -1,8 +1,8 @@
-import 'dart:async';
+// import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class benevole {
+class Benevole {
   final String name;
   final String number;
   final String adresse;
@@ -10,7 +10,7 @@ class benevole {
   final String profession;
   final String availability;
 
-  benevole({
+  Benevole({
     this.name,
     this.number,
     this.adresse,
@@ -20,9 +20,9 @@ class benevole {
   });
 }
 
-class benevoleNotifier with ChangeNotifier {
+class BenevoleNotifier with ChangeNotifier {
   List benevoles = [
-    benevole(
+    Benevole(
       name: 'ANDRIAMALALA Falitiana',
       number: '0347992643',
       email: ' Falitiana37@gmail.com',
@@ -30,7 +30,7 @@ class benevoleNotifier with ChangeNotifier {
       profession: 'Environnementaliste GIZ',
       availability: 'Samedi',
     ),
-    benevole(
+    Benevole(
       name: 'ANDRIANJAKA Nancy',
       number: '0344343882',
       email: 'nancy.andrianjaka@gmail.com',
@@ -38,7 +38,7 @@ class benevoleNotifier with ChangeNotifier {
       profession: 'Attachée de direction',
       availability: 'Samedi',
     ),
-    benevole(
+    Benevole(
       name: 'RAZAFIMANANTSOA Hajarivony Rindra',
       number: '0345431170 ',
       email: 'hajarivonyr@gmail.com',
@@ -46,7 +46,7 @@ class benevoleNotifier with ChangeNotifier {
       profession: 'Directeur vente, Marketing et Partenariat',
       availability: 'Mercredi',
     ),
-    benevole(
+    Benevole(
       name: 'RAJAONARIVELO Ranto',
       number: '0347029304',
       email: 'Rantorajaonarivelo521@gmail.com',
@@ -54,7 +54,7 @@ class benevoleNotifier with ChangeNotifier {
       profession: 'Etudiant',
       availability: 'Mercredi',
     ),
-    benevole(
+    Benevole(
       name: 'RAKOTOARIMANANA Anjaharivola Tendrisoa',
       number: '0348208958',
       email: 'rakotoarimananatendrisoa@gmail.com',

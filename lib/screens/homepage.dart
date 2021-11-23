@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/benevole.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,9 +10,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final benevole = Provider.of<BenevoleNotifier>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Liste des bénévoles'),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {
@@ -20,11 +25,26 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+      body: ListView.builder(
+          itemBuilder: (context, index) {
+            return ListTile(
+              onTap: () {},
+              title: Text(benevole.benevoles[index].name),
+              subtitle: Text(benevole.benevoles[index].number),
+            );
+          },
+          itemCount: benevole.benevoles.length),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: (){},
+      ),
     );
   }
 }
 
 class Search extends SearchDelegate {
+  List result = [];
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -35,33 +55,58 @@ class Search extends SearchDelegate {
         icon: Icon(Icons.clear),
       ),
     ];
-    // throw UnimplementedError();
   }
 
   @override
   Widget buildLeading(BuildContext context) {
     // leading icon on the left of the appBar
     return IconButton(
-        onPressed: () {
-          close(context, null);
-        },
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: transitionAnimation,
-        ));
-    // throw UnimplementedError();
+      onPressed: () {
+        close(context, null);
+      },
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: transitionAnimation,
+      ),
+    );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    // show some result based on the selection
-    // throw UnimplementedError();
+    return ListView.builder(
+      itemCount: result.length,
+      itemBuilder: (context, index) {
+        return Text(result[index].name);
+        // return ListTile(
+        //   title: result[index].name,
+        //   subtitle: result[index].number,
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     // show when someone searches for something
-    return query.isEmpty? Container(): Text('Hello');
+
+    final benevole = Provider.of<BenevoleNotifier>(context, listen: false);
+
+    result = benevole.benevoles
+        .where((element) =>
+            element.name.contains(RegExp("$query", caseSensitive: false)))
+        .toList();
+
+    return query.isEmpty
+        ? Container()
+        : ListView.builder(
+            itemCount: result.length,
+            itemBuilder: (context, index) => ListTile(
+              onTap: () {
+                showResults(context);
+              },
+              title: Text(result[index].name),
+              subtitle: Text(result[index].number),
+            ),
+          );
     // throw UnimplementedError();
   }
 }
