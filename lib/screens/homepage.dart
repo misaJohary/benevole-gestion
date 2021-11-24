@@ -1,3 +1,4 @@
+import 'package:benevolat/screens/detail_screen.dart';
 import 'package:benevolat/screens/new_benevole.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,16 +29,21 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView.builder(
           itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () {},
-              title: Text(benevole.benevoles[index].name),
-              subtitle: Text(benevole.benevoles[index].number),
-            );
+            return Column(children: [
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pushNamed(DetailScreen.routeName, arguments:benevole.benevoles[index].id);
+                },
+                title: Text(benevole.benevoles[index].name),
+                subtitle: Text(benevole.benevoles[index].number),
+              ),
+              Divider()
+            ]);
           },
           itemCount: benevole.benevoles.length),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: (){
+        onPressed: () {
           Navigator.of(context).pushNamed(AddNewBenevole.routeName);
         },
       ),

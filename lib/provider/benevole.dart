@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 class Benevole {
+  final String id;
   final String name;
   final String number;
   final String adresse;
@@ -11,6 +12,7 @@ class Benevole {
   final String availability;
 
   Benevole({
+    this.id,
     this.name,
     this.number,
     this.adresse,
@@ -23,6 +25,7 @@ class Benevole {
 class BenevoleNotifier with ChangeNotifier {
   List benevoles = [
     Benevole(
+      id: 'b1',
       name: 'ANDRIAMALALA Falitiana',
       number: '0347992643',
       email: ' Falitiana37@gmail.com',
@@ -31,6 +34,7 @@ class BenevoleNotifier with ChangeNotifier {
       availability: 'Samedi',
     ),
     Benevole(
+      id: 'b2',
       name: 'ANDRIANJAKA Nancy',
       number: '0344343882',
       email: 'nancy.andrianjaka@gmail.com',
@@ -39,6 +43,7 @@ class BenevoleNotifier with ChangeNotifier {
       availability: 'Samedi',
     ),
     Benevole(
+      id: 'b3',
       name: 'RAZAFIMANANTSOA Hajarivony Rindra',
       number: '0345431170 ',
       email: 'hajarivonyr@gmail.com',
@@ -47,6 +52,7 @@ class BenevoleNotifier with ChangeNotifier {
       availability: 'Mercredi',
     ),
     Benevole(
+      id: 'b4',
       name: 'RAJAONARIVELO Ranto',
       number: '0347029304',
       email: 'Rantorajaonarivelo521@gmail.com',
@@ -55,6 +61,7 @@ class BenevoleNotifier with ChangeNotifier {
       availability: 'Mercredi',
     ),
     Benevole(
+      id: 'b5',
       name: 'RAKOTOARIMANANA Anjaharivola Tendrisoa',
       number: '0348208958',
       email: 'rakotoarimananatendrisoa@gmail.com',

@@ -12,6 +12,7 @@ class AddNewBenevole extends StatefulWidget {
 class _AddNewBenevoleState extends State<AddNewBenevole> {
   final _form = GlobalKey<FormState>();
   Benevole newBenevole = Benevole(
+    id: DateTime.now().toString(),
     name: '',
     number: '',
     email: '',
@@ -42,6 +43,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
                   newBenevole = Benevole(
+                    id: newBenevole.id,
                     name: value,
                     number: newBenevole.number,
                     email: newBenevole.number,
@@ -57,6 +59,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 keyboardType: TextInputType.phone,
                 onSaved: (value) {
                   newBenevole = Benevole(
+                    id: newBenevole.id,
                     name: newBenevole.name,
                     number: value,
                     email: newBenevole.number,
@@ -72,6 +75,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (value) {
                   newBenevole = Benevole(
+                    id: newBenevole.id,
                     name: newBenevole.name,
                     number: newBenevole.number,
                     email: value,
@@ -86,6 +90,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
                   newBenevole = Benevole(
+                    id: newBenevole.id,
                     name: newBenevole.name,
                     number: newBenevole.number,
                     email: newBenevole.number,
@@ -100,6 +105,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
                   newBenevole = Benevole(
+                    id: newBenevole.id,
                     name: newBenevole.name,
                     number: newBenevole.number,
                     email: newBenevole.number,
@@ -125,6 +131,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 },
                 onSaved: (value) {
                   newBenevole = Benevole(
+                    id: newBenevole.id,
                     name: newBenevole.name,
                     number: newBenevole.number,
                     email: newBenevole.number,
