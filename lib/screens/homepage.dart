@@ -110,7 +110,8 @@ class Search extends SearchDelegate {
             itemCount: result.length,
             itemBuilder: (context, index) => ListTile(
               onTap: () {
-                showResults(context);
+                Navigator.of(context).pushNamed(DetailScreen.routeName, arguments:result[index].id);
+                // showResults(context);
               },
               title: Text(result[index].name),
               subtitle: Text(result[index].number),

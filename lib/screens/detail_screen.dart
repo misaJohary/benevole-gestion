@@ -1,3 +1,4 @@
+import 'package:benevolat/widgets/info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/benevole.dart';
@@ -20,118 +21,88 @@ class DetailScreen extends StatelessWidget {
         //     IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
         //   ],
         // ),
-        body: Column(
-          children: [
-            Container(
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-                  ],),
-                  Text(benevoleSelected.name,
-                    style: Theme.of(context).textTheme.headline4,)
-                ],
-              ),
+        body: SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 150,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius:
+                    BorderRadius.only(bottomRight: Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, offset: Offset(0, 5), blurRadius: 10)
+                ]),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(Icons.arrow_back_rounded),
+                        color: Colors.white),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit),
+                        color: Colors.white),
+                  ],
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      benevoleSelected.name,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
             ),
-            Padding(
+          ),
+          Expanded(
+            child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    benevoleSelected.name,
-                    style: Theme.of(context).textTheme.headline4,
+                  Info(
+                    title: 'Contact',
+                    info: benevoleSelected.number,
                   ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'Contact : ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(fontStyle: FontStyle.italic, fontSize: 15),
-                        children: [
-                          TextSpan(
-                            text: benevoleSelected.number,
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.blueGrey,
-                                fontStyle: FontStyle.normal),
-                          ),
-                        ]),
+                  Info(
+                    title: 'E-mail',
+                    info: benevoleSelected.email,
                   ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'E-mail : ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(fontStyle: FontStyle.italic, fontSize: 15),
-                        children: [
-                          TextSpan(
-                            text: benevoleSelected.email,
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.blueGrey,
-                                fontStyle: FontStyle.normal),
-                          ),
-                        ]),
+                  Info(
+                    title: 'Adresse',
+                    info: benevoleSelected.adresse,
                   ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'Adresse : ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(fontStyle: FontStyle.italic, fontSize: 15),
-                        children: [
-                          TextSpan(
-                            text: benevoleSelected.adresse,
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.blueGrey,
-                                fontStyle: FontStyle.normal),
-                          ),
-                        ]),
+                  Info(
+                    title: 'Profession',
+                    info: benevoleSelected.profession,
                   ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'Profession : ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(fontStyle: FontStyle.italic, fontSize: 15),
-                        children: [
-                          TextSpan(
-                            text: benevoleSelected.profession,
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.blueGrey,
-                                fontStyle: FontStyle.normal),
-                          ),
-                        ]),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'Disponibilité : ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(fontStyle: FontStyle.italic, fontSize: 15),
-                        children: [
-                          TextSpan(
-                            text: benevoleSelected.availability,
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.blueGrey,
-                                fontStyle: FontStyle.normal),
-                          ),
-                        ]),
+                  Info(
+                    title: 'Disponibilité',
+                    info: benevoleSelected.availability,
                   ),
                 ],
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    ));
   }
 }
+
