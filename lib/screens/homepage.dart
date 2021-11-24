@@ -1,3 +1,4 @@
+import 'package:benevolat/screens/new_benevole.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/benevole.dart';
@@ -10,7 +11,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final benevole = Provider.of<BenevoleNotifier>(context, listen: false);
+    final benevole = Provider.of<BenevoleNotifier>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +37,9 @@ class _HomePageState extends State<HomePage> {
           itemCount: benevole.benevoles.length),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: (){},
+        onPressed: (){
+          Navigator.of(context).pushNamed(AddNewBenevole.routeName);
+        },
       ),
     );
   }

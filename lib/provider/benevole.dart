@@ -63,4 +63,10 @@ class BenevoleNotifier with ChangeNotifier {
       availability: 'Samedi',
     ),
   ];
+
+  addNew(Benevole newBenevole){
+    // benevoles.insert(newBenevole);
+    benevoles.add(newBenevole);
+    notifyListeners();
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:benevolat/provider/benevole.dart';
 import 'package:benevolat/screens/homepage.dart';
+import 'package:benevolat/screens/new_benevole.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: HomePage(),
+        routes: {
+          AddNewBenevole.routeName : (ctx) => AddNewBenevole(),
+        },
       ),
     );
   }
