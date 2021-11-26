@@ -26,9 +26,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final benevole = Provider.of<BenevoleNotifier>(context);
 
-    List monday = benevole.benevoles
-        .where((element) => element.availability == 'Samedi')
-        .toList();
+    List days = [
+      benevole.benevoles
+          .where((element) => element.availability == 'Lundi')
+          .toList(),
+      benevole.benevoles
+          .where((element) => element.availability == 'Mardi')
+          .toList(),
+      benevole.benevoles
+          .where((element) => element.availability == 'Mercredi')
+          .toList(),
+      benevole.benevoles
+          .where((element) => element.availability == 'Jeudi')
+          .toList(),
+      benevole.benevoles
+          .where((element) => element.availability == 'Vendredi')
+          .toList(),
+      benevole.benevoles
+          .where((element) => element.availability == 'Samedi')
+          .toList(),
+      benevole.benevoles
+          .where((element) => element.availability == 'Dimanche')
+          .toList(),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -45,19 +65,68 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(),
       body: _groupByAvaibility
-          ? Column(children: [
-              Text(day[0]),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: monday.length,
-                  itemBuilder: (ctx, index) => ListTile(
-                    onTap: () {},
-                    title: Text(monday[index].name),
-                    subtitle: Text(monday[index].number),
-                  ),
-                ),
-              ),
-            ])
+          ? days[0].length == 0
+              ? Container(
+                  margin: EdgeInsets.all(10),
+                  height: 70,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Center(
+                                child: Text(
+                                  day[0],
+                                  // days[0][0].availability,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          color: Colors.white, fontSize: 15),
+                                ),
+                              ),
+                              color: Colors.cyan,
+                              height: double.infinity,
+                            )),
+                        Expanded(flex: 5, child: Center(child: Text('Aucune personne Disponible'))),
+                      ]),
+                )
+              : Container(
+                  margin: EdgeInsets.all(10),
+                  height: days[0].length * 70.0,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Center(
+                                child: Text(
+                                  days[0][0].availability,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          color: Colors.white, fontSize: 15),
+                                ),
+                              ),
+                              color: Colors.cyan,
+                              height: double.infinity,
+                            )),
+                        Expanded(
+                          flex: 5,
+                          child: ListView.builder(
+                            itemCount: days[0].length,
+                            itemBuilder: (ctx, index) => ListTile(
+                              onTap: () {},
+                              title: Text(days[0][index].name),
+                              subtitle: Text(days[0][index].number),
+                            ),
+                          ),
+                        ),
+                      ]),
+                )
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Column(children: [
