@@ -10,9 +10,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _groupByAvaibility = true;
+
+  final List<String> day = [
+    'Lundi',
+    'Mardi',
+    'Mercredi',
+    'Jeudi',
+    'Vendredi',
+    'Samedi',
+    'Dimanche'
+  ];
+
   @override
   Widget build(BuildContext context) {
     final benevole = Provider.of<BenevoleNotifier>(context);
+
+    List monday = benevole.benevoles
+        .where((element) => element.availability == 'Samedi')
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -27,20 +43,36 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: ListView.builder(
-          itemBuilder: (context, index) {
-            return Column(children: [
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed(DetailScreen.routeName, arguments:benevole.benevoles[index].id);
-                },
-                title: Text(benevole.benevoles[index].name),
-                subtitle: Text(benevole.benevoles[index].number),
+      drawer: Drawer(),
+      body: _groupByAvaibility
+          ? Column(children: [
+              Text(day[0]),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: monday.length,
+                  itemBuilder: (ctx, index) => ListTile(
+                    onTap: () {},
+                    title: Text(monday[index].name),
+                    subtitle: Text(monday[index].number),
+                  ),
+                ),
               ),
-              Divider()
-            ]);
-          },
-          itemCount: benevole.benevoles.length),
+            ])
+          : ListView.builder(
+              itemBuilder: (context, index) {
+                return Column(children: [
+                  ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(DetailScreen.routeName,
+                          arguments: benevole.benevoles[index].id);
+                    },
+                    title: Text(benevole.benevoles[index].name),
+                    subtitle: Text(benevole.benevoles[index].number),
+                  ),
+                  Divider()
+                ]);
+              },
+              itemCount: benevole.benevoles.length),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -110,7 +142,8 @@ class Search extends SearchDelegate {
             itemCount: result.length,
             itemBuilder: (context, index) => ListTile(
               onTap: () {
-                Navigator.of(context).pushNamed(DetailScreen.routeName, arguments:result[index].id);
+                Navigator.of(context).pushNamed(DetailScreen.routeName,
+                    arguments: result[index].id);
                 // showResults(context);
               },
               title: Text(result[index].name),
