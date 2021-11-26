@@ -2,17 +2,17 @@ import 'package:benevolat/provider/benevole.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddNewBenevole extends StatefulWidget {
-  static String routeName = './add-new';
+class EditScreen extends StatefulWidget {
+  static String routeName = './edit-screen';
 
   @override
-  _AddNewBenevoleState createState() => _AddNewBenevoleState();
+  _EditScreenState createState() => _EditScreenState();
 }
 
-class _AddNewBenevoleState extends State<AddNewBenevole> {
+class _EditScreenState extends State<EditScreen> {
   final _form = GlobalKey<FormState>();
   Benevole newBenevole = Benevole(
-    id: DateTime.now().toString(),
+    id: '',
     name: '',
     number: '',
     email: '',
@@ -21,16 +21,51 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
     availability: '',
   );
 
+  var _initValue = {
+    'id': '',
+    'name': '',
+    'number': '',
+    'email': '',
+    'adresse': '',
+    'profession': '',
+    'availability': '',
+  };
+
+  bool _isInit = true;
+
+  String args = null;
+
   _saveForm() {
     _form.currentState.save();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      args = ModalRoute.of(context).settings.arguments as String;
+      final benevoleData = Provider.of<BenevoleNotifier>(context).benevoles;
+      newBenevole = benevoleData.firstWhere((element) => element.id == args);
+      _initValue = {
+        'id': newBenevole.id,
+        'name': newBenevole.name,
+        'number': newBenevole.number,
+        'email': newBenevole.email,
+        'adresse': newBenevole.adresse,
+        'profession': newBenevole.profession,
+        'availability': newBenevole.availability,
+      };
+    }
+
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter un nouveau membre'),
-        centerTitle: true,
+        title: Text('Editer'),
+        // centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -39,6 +74,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _initValue['name'],
                 decoration: InputDecoration(labelText: 'Nom et Prénom : '),
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
@@ -46,7 +82,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                     id: newBenevole.id,
                     name: value,
                     number: newBenevole.number,
-                    email: newBenevole.email,
+                    email: newBenevole.number,
                     adresse: newBenevole.adresse,
                     profession: newBenevole.profession,
                     availability: newBenevole.availability,
@@ -54,6 +90,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['number'],
                 decoration: InputDecoration(labelText: 'Contact : '),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.phone,
@@ -62,7 +99,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                     id: newBenevole.id,
                     name: newBenevole.name,
                     number: value,
-                    email: newBenevole.email,
+                    email: newBenevole.number,
                     adresse: newBenevole.adresse,
                     profession: newBenevole.profession,
                     availability: newBenevole.availability,
@@ -70,6 +107,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['email'],
                 decoration: InputDecoration(labelText: 'E-mail : '),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
@@ -86,6 +124,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['adresse'],
                 decoration: InputDecoration(labelText: 'Adresse : '),
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
@@ -93,7 +132,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                     id: newBenevole.id,
                     name: newBenevole.name,
                     number: newBenevole.number,
-                    email: newBenevole.email,
+                    email: newBenevole.number,
                     adresse: value,
                     profession: newBenevole.profession,
                     availability: newBenevole.availability,
@@ -101,6 +140,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['profession'],
                 decoration: InputDecoration(labelText: 'Profession : '),
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
@@ -108,7 +148,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                     id: newBenevole.id,
                     name: newBenevole.name,
                     number: newBenevole.number,
-                    email: newBenevole.email,
+                    email: newBenevole.number,
                     adresse: newBenevole.adresse,
                     profession: value,
                     availability: newBenevole.availability,
@@ -116,6 +156,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['availability'],
                 decoration: InputDecoration(
                     labelText: 'Disponibilité : ',
                     hintText: 'Lundi, mardi, ...',
@@ -128,16 +169,16 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                   _saveForm();
 
                   Provider.of<BenevoleNotifier>(context, listen: false)
-                      .addNew(newBenevole);
+                      .editExisting(args, newBenevole);
 
                   // Navigator.of(context).pop();
                 },
                 onSaved: (value) {
                   newBenevole = Benevole(
-                    id: newBenevole.id,
+                    id: (args == null) ? newBenevole.id : _initValue['id'],
                     name: newBenevole.name,
                     number: newBenevole.number,
-                    email: newBenevole.email,
+                    email: newBenevole.number,
                     adresse: newBenevole.adresse,
                     profession: newBenevole.profession,
                     availability: value,
@@ -152,7 +193,7 @@ class _AddNewBenevoleState extends State<AddNewBenevole> {
                   _saveForm();
 
                   Provider.of<BenevoleNotifier>(context, listen: false)
-                      .addNew(newBenevole);
+                      .editExisting(args, newBenevole);
 
                   // Navigator.of(context).pop();
                 },

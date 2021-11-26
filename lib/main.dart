@@ -1,4 +1,5 @@
 import 'package:benevolat/provider/benevole.dart';
+import 'package:benevolat/screens/edit_screen.dart';
 import 'package:benevolat/screens/homepage.dart';
 import 'package:benevolat/screens/new_benevole.dart';
 import '../screens/detail_screen.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AddNewBenevole.routeName : (ctx) => AddNewBenevole(),
           DetailScreen.routeName : (ctx) => DetailScreen(),
+          EditScreen.routeName : (ctx) => EditScreen(),
         },
       ),
     );

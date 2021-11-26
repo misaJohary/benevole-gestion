@@ -1,3 +1,5 @@
+import 'package:benevolat/screens/edit_screen.dart';
+import 'package:benevolat/screens/new_benevole.dart';
 import 'package:benevolat/widgets/info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +50,9 @@ class DetailScreen extends StatelessWidget {
                         icon: Icon(Icons.arrow_back_rounded),
                         color: Colors.white),
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(EditScreen.routeName, arguments: args);
+                        },
                         icon: Icon(Icons.edit),
                         color: Colors.white),
                   ],

@@ -71,9 +71,16 @@ class BenevoleNotifier with ChangeNotifier {
     ),
   ];
 
-  addNew(Benevole newBenevole){
+  addNew(Benevole newBenevole) {
     // benevoles.insert(newBenevole);
     benevoles.add(newBenevole);
+    notifyListeners();
+  }
+
+  editExisting(String editId, Benevole editBenevole) {
+    int index;
+    index = benevoles.indexWhere((element) => element.id == editId);
+    benevoles[index] = editBenevole;
     notifyListeners();
   }
 }
