@@ -65,76 +65,78 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(),
       body: _groupByAvaibility
-          ? Column(children :List.generate(
-              days.length,
-              (i) => days[i].length == 0
-                  ? Container(
-                      margin: EdgeInsets.all(10),
-                      height: 70,
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: Container(
-                                  child: Center(
-                                    child: Text(
-                                      day[i],
-                                      // days[0][0].availability,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .caption
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 15),
+          ? SingleChildScrollView(
+            child: Column(children :List.generate(
+                days.length,
+                (i) => days[i].length == 0
+                    ? Container(
+                        margin: EdgeInsets.all(10),
+                        height: 70,
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Center(
+                                      child: Text(
+                                        day[i],
+                                        // days[0][0].availability,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                      ),
                                     ),
-                                  ),
-                                  color: Colors.cyan,
-                                  height: double.infinity,
-                                )),
-                            Expanded(
+                                    color: Colors.cyan,
+                                    height: double.infinity,
+                                  )),
+                              Expanded(
+                                  flex: 5,
+                                  child: Center(
+                                      child: Text('Aucune personne Disponible'))),
+                            ]),
+                      )
+                    : Container(
+                        margin: EdgeInsets.all(10),
+                        height: days[i].length * 70.0,
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Center(
+                                      child: Text(
+                                        days[i][0].availability,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                      ),
+                                    ),
+                                    color: Colors.cyan,
+                                    height: double.infinity,
+                                  )),
+                              Expanded(
                                 flex: 5,
-                                child: Center(
-                                    child: Text('Aucune personne Disponible'))),
-                          ]),
-                    )
-                  : Container(
-                      margin: EdgeInsets.all(10),
-                      height: days[i].length * 70.0,
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: Container(
-                                  child: Center(
-                                    child: Text(
-                                      days[i][0].availability,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .caption
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 15),
-                                    ),
+                                child: ListView.builder(
+                                  itemCount: days[i].length,
+                                  itemBuilder: (ctx, index) => ListTile(
+                                    onTap: () {},
+                                    title: Text(days[i][index].name),
+                                    subtitle: Text(days[i][index].number),
                                   ),
-                                  color: Colors.cyan,
-                                  height: double.infinity,
-                                )),
-                            Expanded(
-                              flex: 5,
-                              child: ListView.builder(
-                                itemCount: days[i].length,
-                                itemBuilder: (ctx, index) => ListTile(
-                                  onTap: () {},
-                                  title: Text(days[i][index].name),
-                                  subtitle: Text(days[i][index].number),
                                 ),
                               ),
-                            ),
-                          ]),
-                    ),
-            ).toList())
+                            ]),
+                      ),
+              ).toList()),
+          )
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Column(children: [
