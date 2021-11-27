@@ -10,7 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _groupByAvaibility = true;
+  bool _groupByAvaibility = false;
+  bool _showEmpty = false;
 
   final List<String> _day = [
     'Lundi',
@@ -67,20 +68,75 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-              showSearch(context: context, delegate: Search());
+              showSearch(context: context, delegate: Search(_groupByAvaibility));
             },
             icon: Icon(Icons.search),
           )
         ],
       ),
-      drawer: Drawer(),
+      drawer: SafeArea(
+        child: Drawer(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 150,
+                decoration:
+                    BoxDecoration(color: Theme.of(context).primaryColor),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 50,
+                      bottom: 20,
+                      width: 200,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text('Bienvenue',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(color: Colors.white),
+                            softWrap: true,
+                            overflow: TextOverflow.clip),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SwitchListTile(title: Text('Grouper par disponibilité'),value: _groupByAvaibility, onChanged: (value){
+                setState(() {
+                  _groupByAvaibility = value;
+                });
+              }),
+              SwitchListTile(title: Text('Afficher tout les jours'), value: _showEmpty, onChanged: (value){
+                setState(() {
+                  _showEmpty = value;
+                });
+              }),
+            ],
+          ),
+        ),
+      ),
       body: _groupByAvaibility
           ? SingleChildScrollView(
               child: Column(
                   children: List.generate(
                 _days.length,
                 (i) => _days[i].length == 0
-                    ? Container(
+                    ? _showEmpty? Container(
                         margin: EdgeInsets.all(10),
                         height: 70,
                         child: Row(
@@ -110,11 +166,14 @@ class _HomePageState extends State<HomePage> {
                                   child: Container(
                                     color: Colors.black12,
                                     child: Center(
-                                        child:
-                                            Text('Aucune personne Disponible')),
+                                        child: Text(
+                                      'Aucune personne Disponible',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic),
+                                    )),
                                   )),
                             ]),
-                      )
+                      )  : Container()
                     : Container(
                         margin: EdgeInsets.all(10),
                         height: _days[i].length * 70.0,
@@ -127,6 +186,8 @@ class _HomePageState extends State<HomePage> {
                                     child: Center(
                                       child: Text(
                                         _days[i][0].availability,
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,
                                         style: Theme.of(context)
                                             .textTheme
                                             .caption
@@ -143,7 +204,11 @@ class _HomePageState extends State<HomePage> {
                                 child: ListView.builder(
                                   itemCount: _days[i].length,
                                   itemBuilder: (ctx, index) => ListTile(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                          DetailScreen.routeName,
+                                          arguments: _days[i][index].id);
+                                    },
                                     title: Text(_days[i][index].name),
                                     subtitle: Text(_days[i][index].number),
                                   ),
@@ -179,6 +244,12 @@ class _HomePageState extends State<HomePage> {
 }
 
 class Search extends SearchDelegate {
+
+
+  bool groupBy;
+
+  Search(this.groupBy);
+
   List result = [];
 
   @override
@@ -212,7 +283,17 @@ class Search extends SearchDelegate {
     return ListView.builder(
       itemCount: result.length,
       itemBuilder: (context, index) {
-        return Text(result[index].name);
+        return Column(children: [
+                  ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(DetailScreen.routeName,
+                          arguments: result[index].id);
+                    },
+                    title: Text(result[index].name),
+                    subtitle: Text(result[index].number),
+                  ),
+                  Divider()
+                ]);
         // return ListTile(
         //   title: result[index].name,
         //   subtitle: result[index].number,
@@ -226,7 +307,10 @@ class Search extends SearchDelegate {
 
     final benevole = Provider.of<BenevoleNotifier>(context, listen: false);
 
-    result = benevole.benevoles
+    result =  groupBy? benevole.benevoles
+        .where((element) =>
+            element.availability.contains(RegExp("$query", caseSensitive: false)))
+        .toList() :  benevole.benevoles
         .where((element) =>
             element.name.contains(RegExp("$query", caseSensitive: false)))
         .toList();
