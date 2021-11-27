@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _groupByAvaibility = true;
 
-  final List<String> day = [
+  final List<String> _day = [
     'Lundi',
     'Mardi',
     'Mercredi',
@@ -22,11 +22,21 @@ class _HomePageState extends State<HomePage> {
     'Dimanche'
   ];
 
+  final List<MaterialColor> _color = [
+    Colors.cyan,
+    Colors.purple,
+    Colors.orange,
+    Colors.lightGreen,
+    Colors.pink,
+    Colors.brown,
+    Colors.amber
+  ];
+
   @override
   Widget build(BuildContext context) {
     final benevole = Provider.of<BenevoleNotifier>(context);
 
-    List days = [
+    List _days = [
       benevole.benevoles
           .where((element) => element.availability == 'Lundi')
           .toList(),
@@ -66,9 +76,10 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(),
       body: _groupByAvaibility
           ? SingleChildScrollView(
-            child: Column(children :List.generate(
-                days.length,
-                (i) => days[i].length == 0
+              child: Column(
+                  children: List.generate(
+                _days.length,
+                (i) => _days[i].length == 0
                     ? Container(
                         margin: EdgeInsets.all(10),
                         height: 70,
@@ -80,8 +91,9 @@ class _HomePageState extends State<HomePage> {
                                   child: Container(
                                     child: Center(
                                       child: Text(
-                                        day[i],
-                                        // days[0][0].availability,
+                                        _day[i],
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,
                                         style: Theme.of(context)
                                             .textTheme
                                             .caption
@@ -90,18 +102,22 @@ class _HomePageState extends State<HomePage> {
                                                 fontSize: 15),
                                       ),
                                     ),
-                                    color: Colors.cyan,
+                                    color: _color[i],
                                     height: double.infinity,
                                   )),
                               Expanded(
                                   flex: 5,
-                                  child: Center(
-                                      child: Text('Aucune personne Disponible'))),
+                                  child: Container(
+                                    color: Colors.black12,
+                                    child: Center(
+                                        child:
+                                            Text('Aucune personne Disponible')),
+                                  )),
                             ]),
                       )
                     : Container(
                         margin: EdgeInsets.all(10),
-                        height: days[i].length * 70.0,
+                        height: _days[i].length * 70.0,
                         child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -110,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Container(
                                     child: Center(
                                       child: Text(
-                                        days[i][0].availability,
+                                        _days[i][0].availability,
                                         style: Theme.of(context)
                                             .textTheme
                                             .caption
@@ -119,24 +135,24 @@ class _HomePageState extends State<HomePage> {
                                                 fontSize: 15),
                                       ),
                                     ),
-                                    color: Colors.cyan,
+                                    color: _color[i],
                                     height: double.infinity,
                                   )),
                               Expanded(
                                 flex: 5,
                                 child: ListView.builder(
-                                  itemCount: days[i].length,
+                                  itemCount: _days[i].length,
                                   itemBuilder: (ctx, index) => ListTile(
                                     onTap: () {},
-                                    title: Text(days[i][index].name),
-                                    subtitle: Text(days[i][index].number),
+                                    title: Text(_days[i][index].name),
+                                    subtitle: Text(_days[i][index].number),
                                   ),
                                 ),
                               ),
                             ]),
                       ),
               ).toList()),
-          )
+            )
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Column(children: [
