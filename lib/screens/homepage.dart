@@ -105,7 +105,9 @@ class _HomePageState extends State<HomePage> {
                       top: 5,
                       right: 5,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                        },
                         icon: Icon(
                           Icons.info_outline,
                           color: Colors.white,

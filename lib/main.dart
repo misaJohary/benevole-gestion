@@ -2,6 +2,7 @@ import 'package:benevolat/provider/benevole.dart';
 import 'package:benevolat/screens/edit_screen.dart';
 import 'package:benevolat/screens/homepage.dart';
 import 'package:benevolat/screens/new_benevole.dart';
+import './screens/get_started.dart';
 import '../screens/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomePage(),
+        home: GetStarted(),
+        // home: HomePage(),
         routes: {
           AddNewBenevole.routeName : (ctx) => AddNewBenevole(),
           DetailScreen.routeName : (ctx) => DetailScreen(),
