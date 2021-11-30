@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         home: GetStarted(),
         // home: HomePage(),
         routes: {
+          HomePage.routeName : (ctx) => HomePage(),
           AddNewBenevole.routeName : (ctx) => AddNewBenevole(),
           DetailScreen.routeName : (ctx) => DetailScreen(),
           EditScreen.routeName : (ctx) => EditScreen(),

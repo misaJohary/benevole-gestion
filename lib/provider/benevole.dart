@@ -83,4 +83,9 @@ class BenevoleNotifier with ChangeNotifier {
     benevoles[index] = editBenevole;
     notifyListeners();
   }
+
+  deleteBenevole(String id){
+    benevoles.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }

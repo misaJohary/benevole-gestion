@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../provider/benevole.dart';
 
 class HomePage extends StatefulWidget {
+  static String routeName = './home';
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                       right: 5,
                       child: IconButton(
                         onPressed: () {
-                          
+
                         },
                         icon: Icon(
                           Icons.info_outline,
@@ -230,6 +231,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     title: Text(benevole.benevoles[index].name),
                     subtitle: Text(benevole.benevoles[index].number),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded,  size: 18,color: Colors.grey),
                   ),
                   Divider()
                 ]);
