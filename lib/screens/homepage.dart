@@ -67,12 +67,15 @@ class _HomePageState extends State<HomePage> {
         title: Text('Liste des bénévoles'),
         centerTitle: true,
         actions: [
+          
           IconButton(
             onPressed: () {
               showSearch(context: context, delegate: Search(_groupByAvaibility));
             },
-            icon: Icon(Icons.search),
+            icon: _groupByAvaibility? Icon(Icons.filter_alt_rounded):Icon(Icons.search),
           )
+          
+          
         ],
       ),
       drawer: SafeArea(
